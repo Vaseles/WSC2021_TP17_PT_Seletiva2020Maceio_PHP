@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Processor extends Model
 {
     protected $fillable = [
-        'name', 'imageUrl', 'brand_id', 'socketType_id', 'cores', 'baseFrequency',
+        'name', 'imageUrl', 'brandId', 'socketTypeId', 'cores', 'baseFrequency',
         'maxFrequency', 'cacheMemory', 'tdp'
     ];
 

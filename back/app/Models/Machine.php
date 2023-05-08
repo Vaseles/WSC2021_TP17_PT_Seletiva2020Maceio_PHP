@@ -8,8 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Machine extends Model
 {
     public $timestamps = false;
+
     protected $fillable = [
-        'name', 'description', 'imageUrl', 'motherboard_id', 'processor_id', 'ramMemory_id', 'ramMemoryAmount', 'graphicCard_id', 'graphicCardAmount', 'powerSupply_id'
+        'name', 
+        'description', 
+        'imageUrl', 
+        'motherboardId', 
+        'processorId', 
+        'ramMemoryId', 
+        'ramMemoryAmount', 
+        'graphicCardId', 
+        'graphicCardAmount', 
+        'powerSupplyId'
     ];
 
     public function motherboard() {

@@ -9,9 +9,9 @@ class Motherboard extends Model
 {
     protected $fillable = [
         'name', 'imageUrl', 
-        'brand_id', 
-        'socketType_id', 
-        'ramMemoryType_id',
+        'brandId', 
+        'socketTypeId', 
+        'ramMemoryTypeId',
         'ramMemorySlots',
         'maxTdp',
         'sataSlots',
