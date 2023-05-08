@@ -26,13 +26,28 @@ Route::prefix('/')->group(function() {
     //     return response(['message' => 'I work']);
     // });
 
+    # auth routes
     Route::post('login',  [UserController::class,'login']);
     Route::post('register',  [UserController::class,'register']);
     Route::delete('logout', [UserController::class, 'logout']);
     
+    # search routes
     Route::get('/', [DetailsController::class, 'all_details']);
-    Route::get('search', [DetailsController::class, 'search']);
 
+    Route::get('motherboards', [DetailsController::class, 'motherboards']);
+    Route::get('processors', [DetailsController::class, 'processors']);
+    Route::get('rammemories', [DetailsController::class, 'rammemories']);
+    Route::get('storagedevices', [DetailsController::class, 'storagedevices']);
+    Route::get('graphiccards', [DetailsController::class, 'graphiccards']);
+    Route::get('machines', [DetailsController::class, 'machines']);
+    Route::get('power_supplies', [DetailsController::class, 'power_supplies']);
+    Route::get('brands', [DetailsController::class, 'brands']);
+
+    Route::get('search', [DetailsController::class, 'search']);
+    
+
+    # machine routes
+    Route::post('verify-compatibility', [MachineController::class, 'verify_compatibility']);
     Route::post('machines', [MachineController::class, 'create']);
     Route::put('machines/{id}', [MachineController::class, 'update']);
     Route::delete('machines/{id}', [MachineController::class, 'delete']);

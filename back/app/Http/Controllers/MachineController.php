@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GraphicCard;
 use App\Models\Machine;
+use App\Models\Motherboard;
+use App\Models\PowerSupply;
+use App\Models\Processor;
+use App\Models\RamMemory;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
     public function create(Request $request) {
+        # Auth Checking
         $token = $request->bearerToken();
         $user = User::where('accessToken', $token)->first();
 
@@ -36,6 +42,7 @@ class MachineController extends Controller
     }
 
     public function update(Request $request, $id) {
+        # Auth Checking
         $token = $request->bearerToken();
         $user = User::where('accessToken', $token)->first();
 
@@ -78,6 +85,7 @@ class MachineController extends Controller
     }
 
     public function delete(Request $request, $id) {
+        # Auth Checking
         $token = $request->bearerToken();
         $user = User::where('accessToken', $token)->first();
 
@@ -98,7 +106,56 @@ class MachineController extends Controller
         return response('', 200);
     }
 
+    # verify_compatibility
+    public function verify_compatibility(Request $request) {
+        # Auth Checking
+        $token = $request->bearerToken();
+        $user = User::where('accessToken', $token)->first();
+
+        if (!$token) {
+            return response()->json(['message' => 'Invalid Token'], 403);
+        }
+        if (!$user) {
+            return response()->json(['message' => 'Authentication required'], 401);
+        }
+
+        $valid =  'Valid machine';
+
+        $motherboardId = $request->motherboardId;
+        $powerSupplyId = $request->powerSupply;
+        $processorId = $request -> processorId;
+        $ramMemoryId = $request-> ramMemoryId; 
+        $ramMemoryAmount = $request->ramMemoryAmount;   
+        $storageDevices = $request -> storageDevices;
+        $graphicCardId = $request->graphicCardId;
+        $graphicCardAmount = $request->graphicCardAmount;
+
+        $motherboard = Motherboard::find($motherboardId); 
+        $processor = Processor::find($processorId);
+        $powerSupply = PowerSupply::find($powerSupplyId);
+        $ramMemory = RamMemory::find($ramMemoryId);
+        $graphicCard = GraphicCard::find($graphicCardId);
+
+        if ($motherboard->socketTypeId != $processor -> socketTypeId ) {
+            $valid = 'Not Valid machine' ;
+        } 
+
+        if ($motherboard->maxTdp > $processor ->tdp ) {
+            $valid = 'Not Valid machine' ;
+        }
+
+        if ($motherboard->RAMMemoryType !== $ramMemory->rammemories) {
+            $valid = 'Not Valid machine' ;
+        }
+
+
+
+       return response()->json(['message' =>$valid], 200);
+    }
+
+    # image
     public function image(Request $request, $id) {
+        # Auth Checking
         $token = $request->bearerToken();
         $user = User::where('accessToken', $token)->first();
 
