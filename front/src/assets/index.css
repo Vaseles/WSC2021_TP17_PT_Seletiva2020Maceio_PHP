@@ -1,0 +1,40 @@
+
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   text-decoration: none;
+   outline: none;
+}
+body {
+   background-color: #0a0a0a;
+   color: #efefef;
+   font-size: 20px;
+   font-family: 'Courier New', Courier, monospace;
+}
+a {
+   color: rgb(254,254,254,.8);
+   font-size: 20px;
+   transition: all .3s ease;
+   border-radius: 5px;
+   padding: 5px 10px;
+   font-weight: bold;
+}
+a:hover {
+   color: rgb(216, 2, 74);
+}
+
+::-webkit-scrollbar {
+   background-color: rgb(254,254,254,.1);
+   width: 10px;
+}
+::-webkit-scrollbar-thumb {
+   background-color: rgb(216, 2, 74);
+   border-radius: 10px;
+}
+
+
+::selection {
+   background-color: rgb(216, 2, 74);
+   color: white;
+}

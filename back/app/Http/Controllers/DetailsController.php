@@ -197,10 +197,13 @@ class DetailsController extends Controller
         $user = User::where('accessToken', $token)->first();
 
         if (!$token) {
-            return response()->json(['message' => 'Invalid Token'], 403);
+            return response()->json(['message' => 'Authentication required'], 401);
         }
         if (!$user) {
-            return response()->json(['message' => 'Authentication required'], 401);
+            return response()->json([
+                'message' => 'Invalid Token', 
+                // 'token' =>  $token
+            ], 403);
         }
 
         $query = $request->q;

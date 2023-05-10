@@ -156,15 +156,15 @@ class MachineController extends Controller
     # image
     public function image(Request $request, $id) {
         # Auth Checking
-        $token = $request->bearerToken();
-        $user = User::where('accessToken', $token)->first();
+        // $token = $request->bearerToken();
+        // $user = User::where('accessToken', $token)->first();
 
-        if (!$token) {
-            return response()->json(['message' => 'Invalid Token'], 403);
-        }
-        if (!$user) {
-            return response()->json(['message' => 'Authentication required'], 401);
-        }
+        // if (!$token) {
+        //     return response()->json(['message' => 'Invalid Token'], 403);
+        // }
+        // if (!$user) {
+        //     return response()->json(['message' => 'Authentication required'], 401);
+        // }
 
         $machine = Machine::find($id);
 
@@ -176,6 +176,6 @@ class MachineController extends Controller
             return response()->json(['message' => 'image not found'], 404);
         }
 
-        return response()->json($machine->imageUrl, 200);
+        return response()->json("http://127.0.0.1:8000/images/$machine->imageUrl.png", 200);
     }
 }
