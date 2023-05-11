@@ -28,3 +28,7 @@
    border: 1px solid rgb(216, 2, 74);
    color: rgb(216, 2, 74)  ;
 }
+.error {
+   color: rgb(216, 2, 74)  ;
+   font-size: 18px;
+}

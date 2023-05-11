@@ -37,7 +37,7 @@ const Login = () => {
          localStorage.setItem('Blitzo&Stolas', res.data.token)
          setIsAuth(true)
 
-         navigate('/')
+         navigate('/XX/alatech/')
          window.location.reload()
          
       }).catch(err => {
@@ -48,9 +48,6 @@ const Login = () => {
   return (
     <Layout>
       <form action="" className={styles.form}>
-         {error? (
-            <Error message ={error}/>
-         ): <></>}
          <h2>Login</h2>
             <input 
                type="text" 
@@ -64,7 +61,9 @@ const Login = () => {
                onChange={e => setPassword(e.target.value)}
                value={password}
             />
-
+           { error? (
+            <div className={styles.error}>{error}</div>
+         ): <></>}
          <Button onClick={login}>Continue</Button>
       </form>
     </Layout>

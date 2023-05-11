@@ -24,16 +24,16 @@ const Header = () => {
       }).catch((err) => {
         localStorage.removeItem('Blitzo&Stolas');
         setIsAuth(false)
-        navigate('login')
+        navigate('/XX/alatech/login')
       })
   }
 
   return (
     <header className={styles.header}>
-      <a href='/' ><h2>Alatech</h2></a>
+      <a href='/XX/alatech/' ><h2>Alatech</h2></a>
      {!isAuth ? (
        <div className="header__buttons">
-         <a href='/login'>Login</a>
+         <a href='/XX/alatech/login'>Login</a>
       </div>
      ): (
       <Button onClick={logout} >Logout</Button>

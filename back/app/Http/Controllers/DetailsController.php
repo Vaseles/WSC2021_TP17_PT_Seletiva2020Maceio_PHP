@@ -18,15 +18,15 @@ class DetailsController extends Controller
 {
     public function all_details(Request $request) {
         # Auth Checking
-        $token = $request->bearerToken();
-        $user = User::where('accessToken', $token)->first();
+        // $token = $request->bearerToken();
+        // $user = User::where('accessToken', $token)->first();
 
-        if (!$token) {
-            return response()->json(['message' => 'Invalid Token'], 403);
-        }
-        if (!$user) {
-            return response()->json(['message' => 'Authentication required'], 401);
-        }
+        // if (!$token) {
+        //     return response()->json(['message' => 'Invalid Token'], 403);
+        // }
+        // if (!$user) {
+        //     return response()->json(['message' => 'Authentication required'], 401);
+        // }
 
         $motherboards = Motherboard::all();
         $processors = Processor::all();
@@ -193,18 +193,18 @@ class DetailsController extends Controller
     # search
     public function search(Request $request) {
         # Auth Checking
-        $token = $request->bearerToken();
-        $user = User::where('accessToken', $token)->first();
+        // $token = $request->bearerToken();
+        // $user = User::where('accessToken', $token)->first();
 
-        if (!$token) {
-            return response()->json(['message' => 'Authentication required'], 401);
-        }
-        if (!$user) {
-            return response()->json([
-                'message' => 'Invalid Token', 
-                // 'token' =>  $token
-            ], 403);
-        }
+        // if (!$token) {
+        //     return response()->json(['message' => 'Authentication required'], 401);
+        // }
+        // if (!$user) {
+        //     return response()->json([
+        //         'message' => 'Invalid Token', 
+        //         // 'token' =>  $token
+        //     ], 403);
+        // }
 
         $query = $request->q;
         $category = $request->category;
@@ -212,7 +212,7 @@ class DetailsController extends Controller
         $result = 'not found';
 
         if ($category == 'motherboards') {
-            $result = Motherboard::where('name', 'like', "%{$query}%");
+            $result = Motherboard::where('name', 'like', "%{$query}%")->get();
         } else if ($category == 'processors') {
             $result = Processor::where('name', 'like', "%{$query}%")->get();
         } else if ($category == 'brands') {
@@ -221,6 +221,7 @@ class DetailsController extends Controller
             $result = PowerSupply::where('name', 'like', "%{$query}%")->get();
         } else if ($category == 'rammemories') {
             $result = RamMemory::where('name', 'like', "%{$query}%")->get();
+            $result = RamMemory::all();
         } else if ($category == 'storagedevices') {
             $result = StorageDevice::where('name', 'like', "%{$query}%")->get();
         } else if ($category == 'graphiccards') {

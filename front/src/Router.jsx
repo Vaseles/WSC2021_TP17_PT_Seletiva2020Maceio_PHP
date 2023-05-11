@@ -20,15 +20,16 @@ const Router = () => {
   return (
     <div>
       <Routes>
-        <Route path='login' element={<Login/>} />
+        <Route path='/XX/alatech/login' element={<Login/>} />
+        <Route path='*' element={<Error/>} />
         
+        {/* if user is auth */}
         {isAuth? (
           <>
-          <Route path='*' element={<Error/>} />
-          <Route path='/' element={<Home/>} />
-          <Route path='create' element={<Create/>} />
+          <Route path='/XX/alatech/' element={<Home/>} />
+          <Route path='/XX/alatech/create' element={<Create/>} />
           </>
-        ): (navigate('/login'))}
+        ): (navigate('/XX/alatech/login'))}
       </Routes>
     </div>
   )

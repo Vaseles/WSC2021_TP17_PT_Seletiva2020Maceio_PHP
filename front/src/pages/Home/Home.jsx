@@ -36,19 +36,17 @@ const Home = () => {
   }
 
   const toCreate = () => {
-    navigate('/create')
+    navigate('/XX/alatech/create')
   }
   
+  const category__list = ['machina', 'processors', 'power_supplies', 'storagedevices', 'graphiccards', 'motherboards', 'rammemories']
 
   return (
     <Layout>
       <div className={styles.category}>
-        <input type="submit" value='machina' onClick={categoryShow}   />
-        <input type="submit" value='processors' onClick={categoryShow}  />
-        <input type="submit" value='power_supplies'  onClick={categoryShow}  />
-        <input type="submit" value='rammemories'  onClick={categoryShow}  />
-        <input type="submit" value='storagedevices' onClick={categoryShow}  />
-        <input type="submit" value='graphiccards' onClick={categoryShow}   />
+        {category__list.map((categ) => 
+          <input type="submit" value={categ} onClick={categoryShow}   />
+        )}
       </div>
       <Button onClick={toCreate}>Add A New Machine</Button>
       <div className={styles.things}>
