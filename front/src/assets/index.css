@@ -48,3 +48,9 @@ a:hover {
    background-color: rgb(216, 2, 74, .4) !important;
    transition: all .3s linear;
 }
+
+.textarea__go {
+   border: 2px solid rgba(2, 216, 20, 0.4) !important;
+   background-color: rgba(2, 216, 20, 0.4) !important;
+   transition: all .3s linear;
+}

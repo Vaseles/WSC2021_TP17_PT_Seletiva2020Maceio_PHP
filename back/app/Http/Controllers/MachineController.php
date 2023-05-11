@@ -19,10 +19,10 @@ class MachineController extends Controller
         $user = User::where('accessToken', $token)->first();
 
         if (!$token) {
-            return response()->json(['message' => 'Invalid Token'], 403);
+            return response()->json(['message' => 'Authentication required'], 401);
         }
         if (!$user) {
-            return response()->json(['message' => 'Authentication required'], 401);
+            return response()->json(['message' => 'Invalid Token'], 403);
         }
 
         $machine = Machine::create([

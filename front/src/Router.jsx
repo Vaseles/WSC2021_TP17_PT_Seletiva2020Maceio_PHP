@@ -11,12 +11,6 @@ const Router = () => {
   const navigate  = useNavigate()
   const {isAuth} = useAuth()
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate('/login')
-    }
-  }, [])
-
   return (
     <div>
       <Routes>
@@ -29,7 +23,7 @@ const Router = () => {
           <Route path='/XX/alatech/' element={<Home/>} />
           <Route path='/XX/alatech/create' element={<Create/>} />
           </>
-        ): (navigate('/XX/alatech/login'))}
+        ): (<></>)}
       </Routes>
     </div>
   )

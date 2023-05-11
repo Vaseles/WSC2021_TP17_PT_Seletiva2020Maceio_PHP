@@ -7,6 +7,7 @@ import style from './../Home/Home.module.css'
 import axios from 'axios'
 import { useAuth } from '../../hooks/useAuth'
 import Product from '../../components/Product/Product'
+import { useNavigate } from 'react-router-dom'
 
 
 const Create = () => {
@@ -15,16 +16,21 @@ const Create = () => {
   const [content, setContent] = useState([])
   const category__list = ['motherboards', 'processors', 'rammemories', 'power_supplies', 'storagedevices', 'graphiccards']
   const [error, setError] = useState()
+  const navigate = useNavigate()
 
   // Massive for create machine
   const [machine, setMachine] = useState({
-    motherboards: {}, 
-    processors: {}, 
-    rammemories: {},
-    rammemories_count: 0,
-    power_supplies: {},
-    graphiccards: {},
-    storagedevices: {},
+    name: '',
+    description: '',
+    imageUrl: '',
+    motherboards: '', 
+    processors: '', 
+    rammemories: '',
+    rammemories_count: 1,
+    power_supplies: '',
+    graphiccards: '',
+    graphicCardAmmount: 1,
+    storagedevices: '',
   })
 
   useEffect(() => {
@@ -67,6 +73,17 @@ const Create = () => {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    const {name} = e.target
+
+    if (name  === category) {
+      e.target.className = 'textarea__go'
+    } else {
+      e.target.className = 'textarea__error'
+    }
+    
+    setTimeout(() => {
+      e.target.className = ''
+    }, 1000)
   };
 
   const handleDrop = (e) => {
@@ -74,27 +91,76 @@ const Create = () => {
     const {name} = e.target
     console.log(name, category)
     if (name  === category) {
+      if (name === 'motherboards') {
+        setMachine(preValues => ({
+          ...preValues, 'processors': '','rammemories': '', 'rammemories_count': 1, 'power_supplies': '', 'graphiccards': '', 'storagedevices': ''
+        }))
+      }
       let product = e.dataTransfer.getData('text')
-      console.log(product)
 
       setMachine(preValues => ({
         ...preValues, [name]: JSON.parse(product)
       }))
 
-    } else {
+    }  else {
       e.target.className = 'textarea__error'
       setError(`You can't put ${category} in ${name}`)
       
       setTimeout(() => {
         e.target.className = ''
-      }, 1000)
+        setError('')
+      }, 1500)
     }
+  }
 
+  const deleteProduct = (e, name) => {
+    e.preventDefault()
+    setMachine(preValues => ({
+      ...preValues, [name]: ''
+    }))
   }
 
   // !  Add New Machine
   const create = () => {
     console.log(machine)
+
+    for (let m in machine) {
+      // console.log(m)
+    }
+
+    let data = JSON.stringify({
+      "name": machine.name,
+      "description": machine.description,
+      "imageUrl": machine.imageUrl,
+      "motherboardId":  machine.motherboards.id,
+      "processorId": machine.processors.id,
+      "ramMemoryId": machine.rammemories.id,
+      "ramMemoryAmount": machine.rammemories_count,
+      "graphicCardId": machine.graphiccards.id,
+      "graphicCardAmount": machine.graphicCardAmmount,
+      "powerSupplyId": machine.power_supplies,
+    });
+
+    console.log(tokenAuth)
+    console.log(localStorage.getItem('Blitzo&Stolas'))
+     
+    axios.post(`http://127.0.0.1:8000/api/machines`, {
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('Blitzo&Stolas')}`
+      },
+      data: data
+    }).then((res) => {
+        console.log(res)
+        navigate('/XX/alatech/')
+        window.location.reload()
+      }).catch((err) => {
+        console.log(err)
+        setError(`${err.response.status} - ${err.response.data.message} `)
+
+        setTimeout(()=> {
+          setError('')
+        }, 2000)
+      })
   }
 
   return (
@@ -141,6 +207,7 @@ const Create = () => {
             <div className={styles.card__header}>
               <h3>MotherBoard</h3>
               {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'motherboards')} >Delete</button>
             </div>
             <div   className={styles.card__body}  >
                   <textarea name="motherboards" onDragOver={handleDragOver} onDrop={handleDrop} ></textarea>
@@ -155,7 +222,7 @@ const Create = () => {
           <div className={styles.card}>
             <div className={styles.card__header}>
               <h3>Processor</h3>
-              {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'processors')} >Delete</button>
             </div>
             <div className={styles.card__body}>
             <textarea 
@@ -163,7 +230,12 @@ const Create = () => {
                 // onChange ={handleInputChange} 
                 // value={machine.processors}
                 onDragOver={handleDragOver} onDrop={handleDrop}
+                readOnly={true}
+                disabled={true}
              ></textarea>
+             {machine.processors ? (
+                <Product product={machine.processors} />
+             ): <></>}
               <h2>+</h2>
             </div>
           </div>
@@ -174,12 +246,13 @@ const Create = () => {
               <input 
                 type="number" 
                 name='rammemories_count' 
-                placeholder='count...' 
-                // onChange={handleInputChange} 
-                onDragOver={handleDragOver} onDrop={handleDrop}
-                // value={machine.rammemories.count}  
+                placeholder='cocountunt...' 
+                onChange={handleInputChange} 
+                // onDragOver={handleDragOver} onDrop={handleDrop}
+                value={machine.rammemories_count}  
               />
               {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'rammemories')} >Delete</button>
             </div>
             <div className={styles.card__body}>
             <textarea 
@@ -188,6 +261,9 @@ const Create = () => {
                 onDragOver={handleDragOver} onDrop={handleDrop}
                 // value={machine.rammemories}
              ></textarea>
+             {machine.rammemories ? (
+                <Product product={machine.rammemories} />
+             ): <></>}
               <h2>+</h2>
             </div>
           </div>
@@ -195,7 +271,7 @@ const Create = () => {
           <div className={styles.card}>
             <div className={styles.card__header}>
               <h3>Power Supplies</h3>
-              {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'power_supplies')} >Delete</button>
             </div>
             <div className={styles.card__body}>
              <textarea
@@ -204,6 +280,9 @@ const Create = () => {
                 onDragOver={handleDragOver} onDrop={handleDrop}
                 // value={machine.power_supplies}
              ></textarea>
+                {machine.power_supplies ? (
+                <Product product={machine.power_supplies} />
+             ): <></>}
               <h2>+</h2>
             </div>
           </div>
@@ -211,7 +290,7 @@ const Create = () => {
           <div className={styles.card}>
             <div className={styles.card__header}>
               <h3>Graphic Card</h3>
-              {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'graphiccards')} >Delete</button>
             </div>
             <div className={styles.card__body}>
              <textarea
@@ -220,6 +299,9 @@ const Create = () => {
                 onDragOver={handleDragOver} onDrop={handleDrop}
                 // value={machine.graphiccards}
              ></textarea>
+              {machine.graphiccards ? (
+                <Product product={machine.graphiccards} />
+             ): <></>}
               <h2>+</h2>
             </div>
           </div>
@@ -227,10 +309,16 @@ const Create = () => {
           <div className={styles.card}>
             <div className={styles.card__header}>
               <h3>Other Deviceses</h3>
-              {/* <Button>delete</Button> */}
+              <button onClick={(e) => deleteProduct(e, 'storagedevices')} >Delete</button>
             </div>
             <div className={styles.card__body}>
-             <textarea></textarea>
+             <textarea
+                name = 'storagedevices'
+                onDragOver={handleDragOver} onDrop={handleDrop}
+             ></textarea>
+             {machine.storagedevices ? (
+                <Product product={machine.storagedevices} />
+             ): <></>}
               <h2>+</h2>
             </div>
           </div>
